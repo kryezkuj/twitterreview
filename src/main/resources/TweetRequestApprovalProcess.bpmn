@@ -232,6 +232,11 @@
     <bpmn:sequenceFlow id="Flow_0m0chuj" sourceRef="Gateway_0rqe009" targetRef="Gateway_0z8czla" />
     <bpmn:sequenceFlow id="Flow_0zq3832" sourceRef="Activity_1v9puie" targetRef="Activity_0w8rzou" />
     <bpmn:startEvent id="Event_1gvoqmm" name="Tweet eingereicht" camunda:asyncAfter="true">
+      <bpmn:extensionElements>
+        <camunda:formData>
+          <camunda:formField id="tweetContent" label="Gewünschter Tweet-Text" type="string" />
+        </camunda:formData>
+      </bpmn:extensionElements>
       <bpmn:outgoing>Flow_0by82jn</bpmn:outgoing>
     </bpmn:startEvent>
     <bpmn:scriptTask id="Activity_0w8rzou" name="Auf verbotene Wörter prüfen" scriptFormat="JavaScript">
@@ -241,11 +246,10 @@
 var result = tc.toLowerCase().indexOf("gpi");
 execution.setVariable("checkResult", (result !== -1 ? "rejected" : "manualCheckRequired"));</bpmn:script>
     </bpmn:scriptTask>
-    <bpmn:scriptTask id="Activity_1yy8tbv" name="Tweet-Anfrage prüfen" scriptFormat="JavaScript">
+    <bpmn:userTask id="Activity_1yy8tbv" name="Tweet-Anfrage prüfen" camunda:candidateGroups="kommabt">
       <bpmn:incoming>Flow_0izqeqh</bpmn:incoming>
       <bpmn:outgoing>Flow_1codaxr</bpmn:outgoing>
-      <bpmn:script>execution.setVariable("checkResult", "accepted");</bpmn:script>
-    </bpmn:scriptTask>
+    </bpmn:userTask>
   </bpmn:process>
   <bpmn:message id="Message_0crej45" />
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
@@ -578,7 +582,7 @@ execution.setVariable("checkResult", (result !== -1 ? "rejected" : "manualCheckR
       <bpmndi:BPMNShape id="Activity_1sl25bb_di" bpmnElement="Activity_0w8rzou">
         <dc:Bounds x="520" y="858" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_1q1z32j_di" bpmnElement="Activity_1yy8tbv">
+      <bpmndi:BPMNShape id="Activity_1olcupv_di" bpmnElement="Activity_1yy8tbv">
         <dc:Bounds x="823" y="1094" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Participant_1sjyo88_di" bpmnElement="Participant_0zjicxh" isHorizontal="true">
